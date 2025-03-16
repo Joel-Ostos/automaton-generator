@@ -10,19 +10,18 @@
 #include "dynamic_array.h"
 #include "stack.h"
 
-
-enum  op {UNION, KLEENE, CONCAT,  OP_PAR, CL_PAR, NONE};
+enum  op {CL_PAR, UNION, CONCAT, KLEENE, OP_PAR, NONE};
 
 typedef char* regex;
 
 enum op getop(char x) 
 {
   switch(x) {
-    case '(': return OP_PAR;
-    case '*': return KLEENE;
-    case '?': return CONCAT;
-    case '+': return UNION;
     case ')': return CL_PAR;
+    case '+': return UNION;
+    case '?': return CONCAT;
+    case '*': return KLEENE;
+    case '(': return OP_PAR;
   }
   return NONE;
 }
@@ -57,7 +56,7 @@ void reordenate_stack(char x, char** s, char** q)
     exit(1);
   }
 
-  while (oper >= top && (stack_size(*s)) > 0) {
+  while (oper < top && (stack_size(*s)) > 0) {
     if (top == OP_PAR) {
       stack_push(*s, x);
       return;
