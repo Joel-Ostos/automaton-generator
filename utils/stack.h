@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
-#define INIT_SIZE 	30
+#define STACK_INIT_SIZE 	220
 #define GROW_FACTOR 	2
 
 typedef struct Stack Stack;
@@ -33,8 +33,8 @@ bool stack_check(Stack* x)
 
 void* stack_init(void* x, size_t elem_size) 
 {
-  void* b = malloc(INIT_SIZE * elem_size + sizeof(Stack));
-  ((Stack*)b)->cap = INIT_SIZE;
+  void* b = malloc(STACK_INIT_SIZE * elem_size + sizeof(Stack));
+  ((Stack*)b)->cap = STACK_INIT_SIZE;
   ((Stack*)b)->used = 0;
   b = (char*) b + sizeof(Stack);
   assert(b);
@@ -44,7 +44,7 @@ void* stack_init(void* x, size_t elem_size)
 void* stack_grow(void* x, size_t elem_size) 
 {
   void* b = realloc(stack_cast(x), ((Stack*)b)->cap * GROW_FACTOR * elem_size + sizeof(Stack));
-  ((Stack*)b)->cap = INIT_SIZE * GROW_FACTOR;
+  ((Stack*)b)->cap *= GROW_FACTOR;
   b = (Stack*) b + sizeof(Stack);
   assert(b);
   return b;

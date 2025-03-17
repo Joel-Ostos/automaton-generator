@@ -1,3 +1,5 @@
 .ccls-cache/
 examples
+src/a.out
+src/korgi.c
 .gitignore

@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
-#define INIT_SIZE 	30
+#define DA_INIT_SIZE 	220
 #define GROW_FACTOR 	2
 
 typedef struct Dynamic_array Dynamic_array;
@@ -30,10 +30,8 @@ bool da_check(Dynamic_array* x)
 
 void* da_init(void* x, size_t elem_size) 
 {
-  //printf("\nVa a llamar\n");
-  void* b = malloc(INIT_SIZE * elem_size + sizeof(Dynamic_array));
-  //printf("\nFUNCA\n");
-  ((Dynamic_array*)b)->cap = INIT_SIZE;
+  void* b = malloc(DA_INIT_SIZE * elem_size + sizeof(Dynamic_array));
+  ((Dynamic_array*)b)->cap = DA_INIT_SIZE;
   ((Dynamic_array*)b)->used = 0;
   b = (char*) b + sizeof(Dynamic_array);
   assert(b);
@@ -43,7 +41,7 @@ void* da_init(void* x, size_t elem_size)
 void* da_grow(void* x, size_t elem_size) 
 {
   void* b = realloc(da_cast(x), ((Dynamic_array*)b)->cap * GROW_FACTOR * elem_size + sizeof(Dynamic_array));
-  ((Dynamic_array*)b)->cap = INIT_SIZE * GROW_FACTOR;
+  ((Dynamic_array*)b)->cap *=  GROW_FACTOR;
   b = (char*) b + sizeof(Dynamic_array);
   assert(b);
   return b;
