@@ -3,7 +3,8 @@
 
 #include "nfa_lambda.h"
 
-typedef struct Nfa Nfa;
+#define Nfa automata
+
 typedef struct Transition Transition;
 
 struct Transition {
@@ -11,11 +12,6 @@ struct Transition {
   char character;
   int* to;
 };
-
-struct Nfa {
-  State* list;
-};
-
 
 bool find_symbol(char* symbols, char x) 
 {
@@ -116,8 +112,20 @@ Transition* get_new_transitions(NfaLambda* nfa, int*** l_transitions, char** sym
   return result;
 }
 
-void construct_nfa(Nfa* nfa, NfaLambda* nfa_lambda, int** transitions) 
+void build_nfa(Nfa* nfa, NfaLambda* nfa_lambda, Transition* transitions) 
 {
+  for (size_t i = 0; i < da_size(nfa_lambda->list); i++) {
+    State state = {false, NULL};
+    da_append(nfa->list, state);
+  }
+
+  for (size_t i = 0; i < da_size(transitions); i++) {
+    Transition actual = transitions[i];
+    for (size_t j = 0; j < da_size(actual.to); j++) {
+      Edge edge = {actual.to[j], actual.character};
+      da_append(nfa->list[actual.from].edges, edge);
+    }
+  }
 }
 
 Nfa minimize(NfaLambda* nfa_lambda)
@@ -145,7 +153,8 @@ Nfa minimize(NfaLambda* nfa_lambda)
     }
   }
 
-  //construct_nfa(&result, nfa_lambda, new_transitions);
+  build_nfa(&result, nfa_lambda, new_transitions);
+  print_nfa(&result);
   return result;
 }
 

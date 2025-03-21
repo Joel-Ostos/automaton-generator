@@ -1,26 +1,9 @@
 #ifndef NFA_LAMBDA_H
 #define NFA_LAMBDA_H
 
-#include <stdio.h>
-#include "../utils/regex.h"
+#include "automata.h"
 
-typedef struct NfaLambda 	NfaLambda;
-typedef struct State 		State;
-typedef struct Edge 		Edge;
-
-struct Edge {
-  int 		to;
-  char 		label;
-};
-
-struct State {
-  bool		accept;
-  Edge* 	edges;
-};
-
-struct NfaLambda {
-  State* 	list;
-};
+#define NfaLambda automata
 
 NfaLambda generate_nfa()
 {
