@@ -149,7 +149,7 @@ NfaLambda make_kleene(NfaLambda machine_a)
   to_a.to = 0;
   da_append(machine_a.list[da_size(machine_a.list)-1].edges, to_a);
 
-  // Creating an edfe to the last element of result (it doesn't exists yet)
+  // Creating an edge to the last element of result (it doesn't exists yet)
   to_a.to = da_size(machine_a.list)+1;
   da_append(result.list[0].edges, to_a);
   
